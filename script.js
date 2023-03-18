@@ -1,49 +1,86 @@
-console.log("Priyanka")
-//PromiseAPI1(), PromiseAPI2(),PromiseAPI3().
-//Promise.resolve(thenable).then((v) => {console.log(v); // 42});
-
-
-
-
-function promiseChain(){
-    const data1 = document.getElementById("data1")
-    const data2 = document.getElementById("data2")
-    const data3 = document.getElementById("data3")
-    //
-    let PromiseAPI1 = setTimeout(()=> {
-        fetch("https://dummyjson.com/posts")
-        .then(res=>res.json())
-        .then(res=>{
-            console.log("res", res)
-            // res.forEach(myFunction);
-
-            // function myFunction(item){
-            //     data1 += "<tr>"
-            //     data1 += `<td style="padding: 20px 5px 5px 5px; text-align: left"><img src="${name.image}" alt="coin" height="30px" style="margin-left: 30px"/> {item.post.id} <td>`
-            // }
-        })
-    },1000)
-    if (PromiseAPI1) {
-        clearTimeout(PromiseAPI1); // Stop the interval if the condition holds true
-    }
-    
-    //
-    // let PromiseAPI2 = setTimeout(()=> {
-    //     fetch("https://dummyjson.com/products")
-    //     .then(res=>res.json())
-    //     .then(res=>{})
-    // },2000)
-    // if (PromiseAPI2) {
-    //     clearTimeout(PromiseAPI2); // Stop the interval if the condition holds true
-    // }
-
-    // //
-    // let PromiseAPI3 = setTimeout(()=> {
-    //     fetch("https://dummyjson.com/todos")
-    //     .then(res=>res.json())
-    //     .then(res=>{})
-    // },3000)
-    // if (PromiseAPI3) {
-    //     clearTimeout(PromiseAPI3); // Stop the interval if the condition holds true
-    // }
+//created a function which return promise for reach api call
+function fetchData(url, delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    resolve(data);
+                    // console.log(data)
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        }, delay);
+    });
 }
+
+//three functions which fetch the api 
+function PromiseAPI1() {
+    return fetchData('https://dummyjson.com/posts', 1000);
+}
+
+function PromiseAPI2() {
+    return fetchData('https://dummyjson.com/products', 2000);
+}
+
+function PromiseAPI3() {
+    return fetchData('https://dummyjson.com/todos', 3000);
+}
+
+
+const posts = document.getElementById('posts')
+const products = document.getElementById('products')
+const todos = document.getElementById('todos')
+
+
+document.getElementById('getDataBtn').addEventListener('click', () => {
+    PromiseAPI1()
+        .then(data1 => {
+            // Display data from first API in table
+            let tableData1 = '';
+            // console.log(data1)
+            const arr = data1.posts
+            // console.log(arr)
+            arr.forEach(item => {
+                tableData1 += `<tr><td>${item.title}</td><td>${item.body}</td><td>${item.tags}</td></tr>`;
+            });
+            posts.innerHTML = tableData1;
+            console.log(tableData1)
+            return true;
+        })
+        .then(result1 => {
+            if (result1) {
+                return PromiseAPI2();
+            }
+        })
+        .then(data2 => {
+            // Display data from second API in table
+            let tableData2 = '';
+            const arr = data2.products
+            arr.forEach(item => {
+                tableData2 += `<tr><td>${item.title}</td><td>${item.description}</td><td>$${item.price}</td><td><img src=${item.images[0]}></td></tr>`;
+            });
+            products.innerHTML += tableData2;
+            console.log(tableData2)
+            return true;
+        })
+        .then(result2 => {
+            if (result2) {
+                return PromiseAPI3();
+            }
+        })
+        .then(data3 => {
+            // Display data from third API in table
+            let tableData3 = '';
+            const arr = data3.todos
+            arr.forEach(item => {
+                tableData3 += `<tr><td>${item.todo}</td><td>${item.completed}</td></tr>`;
+            });
+            todos.innerHTML += tableData3;
+            console.log(tableData3)
+        })
+        .catch(error => {
+            console.error(error);
+        });
+});
