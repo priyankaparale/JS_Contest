@@ -32,7 +32,8 @@ document.getElementById('getDataBtn').addEventListener('click', () => {
         .then(data1 => {
             // Display data from first API in table
             let tableData1 = '';
-            data1.forEach(item => {
+            const arr = Array.from(data1)
+            arr.forEach(item => {
                 tableData1 += `<tr><td>${item.title}</td><td>${item.body}</td></tr>`;
             });
             document.getElementById('data').innerHTML = tableData1;
@@ -46,7 +47,8 @@ document.getElementById('getDataBtn').addEventListener('click', () => {
         .then(data2 => {
             // Display data from second API in table
             let tableData2 = '';
-            data2.forEach(item => {
+            const arr = Array.from(data2)
+            arr.forEach(item => {
                 tableData2 += `<tr><td>${item.name}</td><td>${item.description}</td></tr>`;
             });
             document.getElementById('data').innerHTML += tableData2;
@@ -60,7 +62,8 @@ document.getElementById('getDataBtn').addEventListener('click', () => {
         .then(data3 => {
             // Display data from third API in table
             let tableData3 = '';
-            data3.forEach(item => {
+            const arr = Array.from(data3)
+            arr.forEach(item => {
                 tableData3 += `<tr><td>${item.title}</td><td>${item.completed}</td></tr>`;
             });
             document.getElementById('data').innerHTML += tableData3;
