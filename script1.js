@@ -1,4 +1,5 @@
 //created a function which return promise for reach api call
+console.log("priyanka")
 function fetchData(url, delay) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -6,6 +7,7 @@ function fetchData(url, delay) {
                 .then(response => response.json())
                 .then(data => {
                     resolve(data);
+                    console.log(data)
                 })
                 .catch(error => {
                     reject(error);
@@ -34,7 +36,7 @@ document.getElementById('getDataBtn').addEventListener('click', () => {
             let tableData1 = '';
             const arr = Array.from(data1)
             arr.forEach(item => {
-                tableData1 += `<tr><td>${item.title}</td><td>${item.body}</td></tr>`;
+                tableData1 += `<tr><td>${item.posts.title}</td><td>${item.posts.body}</td></tr>`;
             });
             document.getElementById('data').innerHTML = tableData1;
             return true;
