@@ -14,7 +14,7 @@ function promiseChain(){
         fetch("https://dummyjson.com/posts")
         .then(res=>res.json())
         .then(res=>{
-            console.log(res)
+            console.log("res", res)
             // res.forEach(myFunction);
 
             // function myFunction(item){
