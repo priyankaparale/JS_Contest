@@ -1,4 +1,5 @@
 //created a function which return promise for reach api call
+
 function fetchData(url, delay) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
